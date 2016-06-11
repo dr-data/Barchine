@@ -1,10 +1,10 @@
 gin and tonic
-gin,25,tonic,50,
+gin|25|tonic|50|
 vodka and orange
-vodka,25,orange,100,
+vodka|25|orange|100|
 vodka
-vodka,25,
+vodka|25|
 vodka martini
-vodka,75,dry vermouth,25,
+vodka|75|dry vermouth|25|
 bourbon
-bourbon,25,
+bourbon|25|

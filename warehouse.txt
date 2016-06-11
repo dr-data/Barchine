@@ -1,6 +1,6 @@
-alcohol,vodka,125,0
-mix,orange,500,1
-alcohol,gin,350,2
-alcohol,dry vermouth,125,3
-alcohol,bourbon,200,4
-mix,tonic,225,5
+alcohol|vodka|125|0|1.5
+mix|orange|500|1|0.2
+alcohol|gin|350|2|2.0
+alcohol|dry vermouth|125|3|1.0
+alcohol|bourbon|200|4|2.5
+mix|tonic|225|5|0.1

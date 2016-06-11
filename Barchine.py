@@ -4,11 +4,12 @@ import sys
 
 #create structure for ingredients
 class ingredient(object):
-    def __init__(self,family,name,amount,pos):
+    def __init__(self,family,name,amount,pos,cost):
         self.family=family
         self.name=name
         self.amount=amount
         self.pos=pos
+        self.cost=cost
 #create structure for drinks
 class drink(object):
     def __init__(self,name,recipe):
@@ -32,12 +33,12 @@ def start():
         f = open('warehouse.txt', 'r')
         print 'generating liquids list'
         for line in f:
-            data = line.split(',')
-            new = ingredient(data[0],data[1],int(data[2]),int(data[3]))
+            data = line.split('|')
+            new = ingredient(data[0],data[1],int(data[2]),int(data[3]),float(data[4]))
             liquids.append(new)
         print 'loaded the following ingredients:'
         for num in range(len(liquids)):
-            print str(liquids[num].family)+','+str(liquids[num].name)+','+str(liquids[num].amount)+','+str(liquids[num].pos)
+            print str(liquids[num].family)+','+str(liquids[num].name)+','+str(liquids[num].amount)+','+str(liquids[num].pos)+',$'+str(liquids[num].cost)
     else:
         print 'warehouse not found!'
         sys.exit
@@ -57,7 +58,7 @@ def start():
             title = f.readline().rstrip('\n')
             #print 'adding '+title
             line = f.readline()
-            data = line.split(',')
+            data = line.split('|')
             #print data
             for num2 in range(0,len(data)-1,2):
                 recipe.append(part(data[num2],int(data[num2+1])))
@@ -108,6 +109,10 @@ def validMenu():
 def getLevel(name):
     for num in range(len(liquids)):
         if(liquids[num].name==name):return liquids[num].amount
+#retrieve cost from stock given name
+def getCost(name):
+    for num in range(len(liquids)):
+        if(liquids[num].name==name):return liquids[num].cost
 #Edit data for liquids and menu using console
 def editStockConsole():
     var = raw_input('Edit liquid or drink: ')
@@ -152,26 +157,34 @@ def editStockConsole():
                                 var = raw_input("Enter new amount (in mL): ")
                                 menu[num].recipe[num2].amount = int(var)
                     if(var=='list'):printOutConsole()
+#calculate the total cost of a drink provided the name
+def calcCost(drink):
+    total=0
+    for num in range(len(drink.recipe)):
+        total += getCost(drink.recipe[num].name)*(drink.recipe[num].amount/25)
+    return 'Cost: $'+str(total)
+    
 def printOutConsole():
     print'-----Stock-----'
     for num in range(len(liquids)):
-            print str(liquids[num].family)+','+str(liquids[num].name)+','+str(liquids[num].amount)+','+str(liquids[num].pos)
+            print 'Type: '+str(liquids[num].family)+', Name: '+str(liquids[num].name)+', Amount: '+str(liquids[num].amount)+'mL, Storage Position: '+str(liquids[num].pos)+', Cost: $'+str(liquids[num].cost)
     print'-----Menu-----'
     for num in range(len(menu)):
             print ' '
             print(str(menu[num].name))
+            print calcCost(menu[num])
             for num2 in range(len(menu[num].recipe)):
-                print(str(menu[num].recipe[num2].name)+','+str(menu[num].recipe[num2].amount))
+                print(str(menu[num].recipe[num2].name)+'::'+str(menu[num].recipe[num2].amount)+'mL')
 def saveData():
     f = open('warehouse.txt', 'w')
     for num in range(len(liquids)):
-            f.write(str(liquids[num].family)+','+str(liquids[num].name)+','+str(liquids[num].amount)+','+str(liquids[num].pos)+'\n')
+            f.write(str(liquids[num].family)+'|'+str(liquids[num].name)+'|'+str(liquids[num].amount)+'|'+str(liquids[num].pos)+'|'+str(liquids[num].cost)+'\n')
     f.close()
     f = open('menu.txt', 'w')
     for num in range(len(menu)):
         f.write(str(menu[num].name)+'\n')
         for num2 in range(len(menu[num].recipe)):
-            f.write(str(menu[num].recipe[num2].name)+','+str(menu[num].recipe[num2].amount)+',')
+            f.write(str(menu[num].recipe[num2].name)+'|'+str(menu[num].recipe[num2].amount)+'|')
         f.write('\n')
     f.close()
 def testData():
@@ -222,5 +235,5 @@ def testData():
     
 start()
 verify()
-editStockConsole()
+printOutConsole()
 saveData()

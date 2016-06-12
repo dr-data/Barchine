@@ -1,7 +1,7 @@
 # Barchine
 A python based framework to do all the background computing for a mechanized bartending machine.
 
-Current Features:
+##Current Features:
   - Store alcoholic beverages and mixers in a txt
   - Store drink recipes in a txt
   - Store cost per 25mL of each base ingredient
@@ -11,7 +11,7 @@ Current Features:
   - Check for low stock
   - Check for drinks which are missing or have insufficient ingredients
   
-Upcoming Features:
+##Upcoming Features:
   - Simpler console navigation
   - Greater in depth comments for function definitions
   - Proper inventory menu editor (edit, add, remove)

@@ -14,3 +14,6 @@ Current Features:
 Upcoming Features:
   - Simpler console navigation
   - Greater in depth comments for function definitions
+  - Proper inventory menu editor (edit, add, remove)
+  - Error checking system to ensure data read from memory file follows proper logic (no overlapping on storage positions, duplicate names)
+  - Create GUI system for end user operation with access to console settings

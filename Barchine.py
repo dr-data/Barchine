@@ -3,6 +3,7 @@ import os.path
 import sys
 
 #create structure for ingredients
+# Family (Alcohol or Mixer), Name of ingredient, Amount in system, Positioning based on hardware setup, Cost per 25mL
 class ingredient(object):
     def __init__(self,family,name,amount,pos,cost):
         self.family=family
@@ -15,13 +16,13 @@ class drink(object):
     def __init__(self,name,recipe):
         self.name=name
         self.recipe=recipe
-#create part structure
+#create drink recipe ingredients structure
 class part(object):
     def __init__(self,name,amount):
         self.name=name
         self.amount=amount
         
-#global variables
+#global variables to store ingredients list and menu list
 liquids = []
 menu = []
 
@@ -75,6 +76,7 @@ def start():
         print 'menu not found!'
         sys.exit
 
+#Verification call to verify the various aspects of the system data
 def verify():
     print'Verifying...'
     print'----------Low Volumes----------'
@@ -163,7 +165,8 @@ def calcCost(drink):
     for num in range(len(drink.recipe)):
         total += getCost(drink.recipe[num].name)*(drink.recipe[num].amount/25)
     return 'Cost: $'+str(total)
-    
+
+#print out call for various data points within the system
 def printOutConsole():
     print'-----Stock-----'
     for num in range(len(liquids)):
@@ -175,6 +178,7 @@ def printOutConsole():
             print calcCost(menu[num])
             for num2 in range(len(menu[num].recipe)):
                 print(str(menu[num].recipe[num2].name)+'::'+str(menu[num].recipe[num2].amount)+'mL')
+#Save all the ingredients information and menu information to the appropriate files
 def saveData():
     f = open('warehouse.txt', 'w')
     for num in range(len(liquids)):
@@ -187,6 +191,7 @@ def saveData():
             f.write(str(menu[num].recipe[num2].name)+'|'+str(menu[num].recipe[num2].amount)+'|')
         f.write('\n')
     f.close()
+#Some random inputs for testing
 def testData():
     #test ingredients
     a = ingredient('alcohol','vodka',100,0)

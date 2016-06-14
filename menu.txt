@@ -1,10 +1,14 @@
 gin and tonic
-gin|25|tonic|50|
-vodka and orange
-vodka|25|orange|100|
-vodka
-vodka|25|
-vodka martini
-vodka|75|dry vermouth|25|
+gin|50|tonic water|100|
 bourbon
 bourbon|25|
+mojito
+rum|100|lime juice|75|
+vodka
+vodka|25|
+vodka and cranberry
+vodka|25|cranberry juice|100|
+margarita
+tequila|50|lime juice|25|triple sec|25|
+cosmopolitan
+vodka|150|cranberry juice|150|triple sec|50|orange juice|25|lime juice|25|

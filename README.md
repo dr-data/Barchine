@@ -17,3 +17,4 @@ A python based framework to do all the background computing for a mechanized bar
   - Proper inventory menu editor (add, remove)
   - Error checking system to ensure data read from memory file follows proper logic (no overlapping on storage positions, duplicate names)
   - Create GUI system for end user operation with access to console settings
+  - Add item to drink data structure, inform user of ingredients to add to glass (ice,mint leaves)

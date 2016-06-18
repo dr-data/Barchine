@@ -127,8 +127,6 @@ def getCost(name):
 #Edit a drinks information
 def edit_drink():
     found = False
-    temp_obj = menu[0]
-    backup_index = 0
     print 'EDIT MODE : Type "exit" to leave at any time'
     var = raw_input('Enter name of drink to edit: ')
     if(var=='exit'):
@@ -137,37 +135,25 @@ def edit_drink():
             if(var==menu[num].name):
                 found = True
                 print'You selected: '+str(menu[num].name)
-                #Create temporary object and backup index
-                tmp_obj = menu[num]
-                backup_index = num
                 print'Enter "exit" to leave edit mode'
                 while(var!='exit'):
                     var = raw_input('Enter one of the following to edit: name,recipe: ')
                     if(var=='name'):
                         var = raw_input('Enter new name: ')
-                        tmp_obj.name = var
+                        menu[num].name = var
                     if(var=='recipe'):
                         for num2 in range(len(menu[num].recipe)):
                             var = raw_input('Edit '+str(menu[num].recipe[num2].name)+'? (y/n): ');
                             if(var=='y'):
                                 var = raw_input("Enter new name: ")
-                                tmp_obj.recipe[num2].name = var
+                                menu[num].recipe[num2].name = var
                                 var = raw_input("Enter new amount (in mL): ")
-                                tmp_obj.recipe[num2].amount = int(var)
+                                menu[num].recipe[num2].amount = int(var)
     if(found==False):
         print 'Ingredient DNE'
         return False
-    var = raw_input('Save changes? (y/n): ')
-    if(var=='y'):
-        print 'Saving changes...'
-        menu[backup_index].name = tmp_obj.name
-        menu[backup_index].recipe = tmp_obj.recipe
-        saveData()
-        return True
-    else:
-        print 'TEMP NAME'+str(temp_obj.name)
-        print 'REAL NAME'+str(menu[backup_index].name)
-        return True
+    
+    return True
     
 #Edit an ingredients information
 def edit_liquid():
@@ -180,41 +166,29 @@ def edit_liquid():
             if(var==liquids[num].name):
                 found = True
                 print'You selected: '+str(liquids[num].name)
-                #Create temporary obj and backup index
-                tmp_obj = liquids[num]
-                backup_index = num
                 print'Enter "exit" to leave edit mode'
                 while(var!='exit'):
                     var = raw_input('Enter one of the following to edit: family,name,amount,pos,cost: ')
                     if(var=='family'):
                         var = raw_input('Enter new family (mixer or alcohol): ')
-                        tmp_obj.family = var
+                        liquids[num].family = var
                     if(var=='name'):
                         var = raw_input('Enter new name: ')
-                        tmp_obj.name = var
+                        liquids[num].name = var
                     if(var=='amount'):
                         var = raw_input('Enter new amount (in mL): ')
-                        tmp_obj.amount = int(var)
+                        liquids[num].amount = int(var)
                     if(var=='pos'):
                         var = raw_input('Enter new pos (Reference machine labelling): ')
-                        tmp_obj.pos = int(var)
+                        liquids[num].pos = int(var)
                     if(var=='cost'):
                         var = raw_input('Enter new price (per 25mL): ')
-                        tmp_obj.cost = float(var)
+                        liquids[num].cost = float(var)
     if(found==False):
         print 'Ingredient DNE'
         return False
-    var = raw_input('Save changes? (y/n): ')
-    if(var=='y'):
-        liquids[backup_index].family = tmp_obj.family
-        liquids[backup_index].name = tmp_obj.name
-        liquids[backup_index].amount = tmp_obj.amount
-        liquids[backup_index].pos = tmp_obj.pos
-        liquids[backup_index].cost = tmp_obj.cost
-        saveData()
-        return True
-    else:
-        return True
+
+    return True
 
 #calculate the total cost of a drink provided the name
 def calcCost(drink):

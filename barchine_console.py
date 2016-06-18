@@ -1,10 +1,10 @@
-#Diego Bonilla 2016 Bartending machine main hub
+#Diego Bonilla 2016 Bartending machine console script
 
 #Import the py script which handles logic
 import barchine_logic
 import sys
 
-#Commands: load,save,verify,list,edit,help,exit
+#Commands: load,save,verify,list,edit,add,delete,help,exit
 
 #Launch print out
 print 'Barchine::Made by Diego Bonilla, 2016'
@@ -21,10 +21,12 @@ while(user!='exit'):
     
     #get user input
     user = raw_input('')
+    
     #run loading function
     if (user=='load'):
         barchine_logic.load_warehouse()
         barchine_logic.load_menu()
+        
     #run saving function
     if (user=='save'):
         if(barchine_logic.empty_liquids()==False & barchine_logic.empty_menu()==False):
@@ -32,26 +34,38 @@ while(user!='exit'):
                 print 'Data saved'
         else:
             print '#### MISSING DATA SETS ####'
+            
     #run verify function
     if (user=='verify'):
         barchine_logic.verify()
+        
     #run console data listing function
     if (user=='list'):
         barchine_logic.print_liquids()
         print ''
         if(barchine_logic.validMenu()==True):
             barchine_logic.print_menu()
+            
     #run edit mode
     if(user=='edit'):
         var = raw_input('edit "ingredient" or "drink"?: ')
         if(var=='drink'):
             while True:
-                if(barchine_logic.edit_menu()==True):
+                if(barchine_logic.edit_drink()==True):
                     break
         else:
             while True:
                 if(barchine_logic.edit_liquid()==True):
                     break
+                
+    #run add entry mode
+    if(user=='add'):
+        print 'add option'
+        
+    #run delete entry mode
+    if(user=='delete'):
+        print 'delete option'
+        
     #print out list of commands with description
     if (user=='help'):
         print 'load - Load data for ingredients from warehouse.txt'
@@ -60,6 +74,8 @@ while(user!='exit'):
         print 'verify - Check for low stock and invalid drink recipes'
         print 'list - List a full ingredients list and menu list with relevant data points'
         print 'edit - Edit entries for both drinks and ingredients'
+        print 'add - Add a new drink or ingredient to the system'
+        print 'delete - Remove a drink or ingredient from the system'
         print 'help - List all console commands with description'
         print 'exit - Exit and close program'
 sys.exit

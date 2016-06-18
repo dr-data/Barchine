@@ -1,5 +1,5 @@
 gin and tonic
-gin|50|tonic water|100|
+gin|25|tonic water|100|
 bourbon
 bourbon|25|
 mojito

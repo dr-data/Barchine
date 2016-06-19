@@ -124,6 +124,26 @@ def getCost(name):
     for num in range(len(liquids)):
         if(liquids[num].name==name):return liquids[num].cost
 
+#add a drink to the menu
+def add_menu():
+    #Temp variables
+    name = 'EMPTY'
+    recipe = []
+    ingredient = part('EMPTY',0.0)
+    #get input for various parameters
+    var = raw_input('Enter drink name: ')
+    name = var
+    var = raw_input('How many ingredients?')
+    for num in range(0,int(var)):
+        ingre_name = raw_input('Enter name of ingredient: ')
+        amount = raw_input('Enter amount of ingredient in mL: ')
+        recipe.append(part(ingre_name,int(amount)))
+    #combine all collected data into drink object
+    new_drink = drink(name,recipe)
+    print ('Added drink: '+str(new_drink.name))
+    for num in range(len(recipe)):
+        print (str(new_drink.recipe[num].name)+', '+str(new_drink.recipe[num].amount)+'mL')
+    menu.append(new_drink)
 #Edit a drinks information
 def edit_drink():
     found = False

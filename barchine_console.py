@@ -60,7 +60,7 @@ while(user!='exit'):
                 
     #run add entry mode
     if(user=='add'):
-        print 'add option'
+        barchine_logic.add_menu()
         
     #run delete entry mode
     if(user=='delete'):

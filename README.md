@@ -11,7 +11,7 @@ A python based framework to do all the background computing for a mechanized bar
   - Check for low stock
   - Check for drinks which are missing or have insufficient ingredients
   - Console navigation
-  - edit inventory and menu information
+  - edit, add to menu and inventory information
   
 ###Upcoming Features:
   - Proper inventory menu editor (add, remove)

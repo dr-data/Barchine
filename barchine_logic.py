@@ -5,7 +5,7 @@ import sys
 #create structure for ingredients
 # Family (Alcohol or Mixer), Name of ingredient, Amount in system, Positioning based on hardware setup, Cost per 25mL
 #Structure in save file:
-#   alcohol|bourbon|750|0|1.57
+#alcohol|bourbon|750|0|1.57
 class ingredient(object):
     def __init__(self,family,name,amount,pos,cost):
         self.family=family
@@ -144,6 +144,40 @@ def add_menu():
     for num in range(len(recipe)):
         print (str(new_drink.recipe[num].name)+', '+str(new_drink.recipe[num].amount)+'mL')
     menu.append(new_drink)
+    
+#add an ingredient to the stock
+def add_ingredient():
+    #get input for various parameters
+    temp_family = raw_input('Enter family of drink (alcohol or mixer): ')
+    temp_name = raw_input('Enter name of drink: ')
+    temp_amount = raw_input('Enter amount in storage (mL): ')
+    temp_position = raw_input('Enter hardware position of ingredient: ')
+    temp_cost = raw_input('Enter cost of drink per 25mL: ')
+    new_ingredient = ingredient(temp_family,temp_name,int(temp_amount),int(temp_position),float(temp_cost))
+    liquids.append(new_ingredient)
+    print 'Added ingredient:'
+    print 'Type: '+str(new_ingredient.family)+', Name: '+str(new_ingredient.name)+', Amount: '+str(new_ingredient.amount)+'mL, Storage Position: '+str(new_ingredient.pos)+', Cost: $'+str(new_ingredient.cost)
+
+#delete a menu option
+def delete_menu():
+    var = raw_input('Enter name of menu item to delete: ')
+    for num in range(len(menu)):
+        if(menu[num].name==var):
+            check = raw_input('Confirm delete ['+menu[num].name+'] (y/n): ')
+            if(check=='y'):
+                menu.pop(num)
+                return
+
+#delete an ingredient
+def delete_ingredient():
+    var = raw_input('Enter name of ingredient to delete: ')
+    for num in range(len(liquids)):
+        if(liquids[num].name==var):
+            check = raw_input('Confirm delete ['+liquids[num].name+'] (y/n): ')
+            if(check=='y'):
+                liquids.pop(num)
+                return
+                
 #Edit a drinks information
 def edit_drink():
     found = False

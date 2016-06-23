@@ -60,11 +60,19 @@ while(user!='exit'):
                 
     #run add entry mode
     if(user=='add'):
-        barchine_logic.add_menu()
-        
+        var = raw_input('add "ingredient" or "drink"?: ')
+        if(var=='drink'):
+            barchine_logic.add_menu()
+        if(var=='ingredient'):
+            barchine_logic.add_ingredient()
+            
     #run delete entry mode
     if(user=='delete'):
-        print 'delete option'
+        var = raw_input('delete "ingredient" or "drink"?: ')
+        if(var=='drink'):
+            barchine_logic.delete_menu()
+        if(var=='ingredient'):
+            barchine_logic.delete_ingredient()
         
     #print out list of commands with description
     if (user=='help'):

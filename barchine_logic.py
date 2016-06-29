@@ -77,17 +77,10 @@ def load_menu():
     else:
         print 'menu not found!'
         sys.exit
-
-#Verification call to verify the various aspects of the system data
-def verify():
-    print'Verifying...'
-    print'----------Low Volumes----------'
-    stockLevels()
-    print'----------Invalid Menu Choices----------'
-    if(validMenu()):
-        print 'None invalid'
     
 #Check for low stock levels
+#return true if all is ok
+#--------------------------------FIX FUNCTION-------------------------------------#
 def stockLevels():
     tally = 0
     for num in range(len(liquids)):
@@ -99,9 +92,12 @@ def stockLevels():
             if(liquids[num].amount<=200):
                 print str(liquids[num].name)+' '+str(liquids[num].amount)+'ml'
                 tally+=1
-    if(tally==0):print 'None Low'
+    if(tally==0):return True
+    else:
+        return False
 
 #ensure that menu items are valid and can be made with provided liquids
+#--------------------------------FIX FUNCTION-------------------------------------#
 def validMenu():
     tally = 0
     for num in range(len(menu)):
@@ -114,6 +110,20 @@ def validMenu():
     else:
         return False
     
+#confirm if menu item exists
+def check_menu(test_name):
+    for num in range(len(menu)):
+                 if(menu[num].name==test_name):
+                     return True
+    return False
+
+#confirm if ingredient exists
+def check_ingredient(test_name):
+    for num in range(len(liquids)):
+                 if(liquids[num].name==test_name):
+                     return True
+    return False
+
 #retrieve level from stock given name
 def getLevel(name):
     for num in range(len(liquids)):
@@ -124,132 +134,67 @@ def getCost(name):
     for num in range(len(liquids)):
         if(liquids[num].name==name):return liquids[num].cost
 
+#retrieve recipe
+def get_recipe(test_name):
+    for num in range(len(menu)):
+        if(menu[num].name==test_name):
+            return menu[num].recipe
+
 #add a drink to the menu
-def add_menu():
-    #Temp variables
-    name = 'EMPTY'
-    recipe = []
-    ingredient = part('EMPTY',0.0)
-    #get input for various parameters
-    var = raw_input('Enter drink name: ')
-    name = var
-    var = raw_input('How many ingredients?')
-    for num in range(0,int(var)):
-        ingre_name = raw_input('Enter name of ingredient: ')
-        amount = raw_input('Enter amount of ingredient in mL: ')
-        recipe.append(part(ingre_name,int(amount)))
+def add_menu(name,recipe):
     #combine all collected data into drink object
     new_drink = drink(name,recipe)
-    print ('Added drink: '+str(new_drink.name))
-    for num in range(len(recipe)):
-        print (str(new_drink.recipe[num].name)+', '+str(new_drink.recipe[num].amount)+'mL')
     menu.append(new_drink)
     
 #add an ingredient to the stock
-def add_ingredient():
-    #get input for various parameters
-    temp_family = raw_input('Enter family of drink (alcohol or mixer): ')
-    temp_name = raw_input('Enter name of drink: ')
-    temp_amount = raw_input('Enter amount in storage (mL): ')
-    temp_position = raw_input('Enter hardware position of ingredient: ')
-    temp_cost = raw_input('Enter cost of drink per 25mL: ')
+def add_ingredient(temp_family,temp_name,temp_amount,temp_position,temp_cost):
+#add data into ingredient structure
     new_ingredient = ingredient(temp_family,temp_name,int(temp_amount),int(temp_position),float(temp_cost))
     liquids.append(new_ingredient)
-    print 'Added ingredient:'
-    print 'Type: '+str(new_ingredient.family)+', Name: '+str(new_ingredient.name)+', Amount: '+str(new_ingredient.amount)+'mL, Storage Position: '+str(new_ingredient.pos)+', Cost: $'+str(new_ingredient.cost)
-
+        
 #delete a menu option
-def delete_menu():
-    var = raw_input('Enter name of menu item to delete: ')
+def delete_menu(name):
     for num in range(len(menu)):
-        if(menu[num].name==var):
-            check = raw_input('Confirm delete ['+menu[num].name+'] (y/n): ')
-            if(check=='y'):
+        if(menu[num].name==name):
                 menu.pop(num)
                 return
-
+            
 #delete an ingredient
-def delete_ingredient():
-    var = raw_input('Enter name of ingredient to delete: ')
+def delete_ingredient(name):
     for num in range(len(liquids)):
-        if(liquids[num].name==var):
-            check = raw_input('Confirm delete ['+liquids[num].name+'] (y/n): ')
-            if(check=='y'):
+        if(liquids[num].name==name):
                 liquids.pop(num)
                 return
                 
 #Edit a drinks information
-def edit_drink():
-    found = False
-    print 'EDIT MODE : Type "exit" to leave at any time'
-    var = raw_input('Enter name of drink to edit: ')
-    if(var=='exit'):
-        return True
+def edit_drink(old_name,new_name,new_recipe):
     for num in range(len(menu)):
-            if(var==menu[num].name):
-                found = True
-                print'You selected: '+str(menu[num].name)
-                print'Enter "exit" to leave edit mode'
-                while(var!='exit'):
-                    var = raw_input('Enter one of the following to edit: name,recipe: ')
-                    if(var=='name'):
-                        var = raw_input('Enter new name: ')
-                        menu[num].name = var
-                    if(var=='recipe'):
-                        for num2 in range(len(menu[num].recipe)):
-                            var = raw_input('Edit '+str(menu[num].recipe[num2].name)+'? (y/n): ');
-                            if(var=='y'):
-                                var = raw_input("Enter new name: ")
-                                menu[num].recipe[num2].name = var
-                                var = raw_input("Enter new amount (in mL): ")
-                                menu[num].recipe[num2].amount = int(var)
-    if(found==False):
-        print 'Ingredient DNE'
-        return False
-    
-    return True
+                 if(menu[num].name==old_name):
+                     if(new_name!='EMPTY'):
+                         menu[num].name = new_name
+                     menu[num].recipe = new_recipe
     
 #Edit an ingredients information
-def edit_liquid():
-    found = False
-    print 'EDIT MODE : Type "exit" to leave at any time'
-    var = raw_input('Enter name of ingredient: ')
-    if(var=='exit'):
-        return True
+def edit_liquid(old_name,family,name,amount,pos,cost):
     for num in range(len(liquids)):
-            if(var==liquids[num].name):
-                found = True
-                print'You selected: '+str(liquids[num].name)
-                print'Enter "exit" to leave edit mode'
-                while(var!='exit'):
-                    var = raw_input('Enter one of the following to edit: family,name,amount,pos,cost: ')
-                    if(var=='family'):
-                        var = raw_input('Enter new family (mixer or alcohol): ')
-                        liquids[num].family = var
-                    if(var=='name'):
-                        var = raw_input('Enter new name: ')
-                        liquids[num].name = var
-                    if(var=='amount'):
-                        var = raw_input('Enter new amount (in mL): ')
-                        liquids[num].amount = int(var)
-                    if(var=='pos'):
-                        var = raw_input('Enter new pos (Reference machine labelling): ')
-                        liquids[num].pos = int(var)
-                    if(var=='cost'):
-                        var = raw_input('Enter new price (per 25mL): ')
-                        liquids[num].cost = float(var)
-    if(found==False):
-        print 'Ingredient DNE'
-        return False
-
-    return True
+        if(liquids[num].name==old_name):
+            if(family!='EMPTY'):
+                liquids[num].family=family
+            if(name!='EMPTY'):       
+                liquids[num].name=name
+            if(amount!=-1):
+                liquids[num].amount=amount
+            if(pos!=-1):
+                liquids[num].pos=pos
+            if(cost!=-1):
+                liquids[num].cost=float(cost)
 
 #calculate the total cost of a drink provided the name
 def calcCost(drink):
     total=0
     for num in range(len(drink.recipe)):
         total += getCost(drink.recipe[num].name)*(drink.recipe[num].amount/25)
-    return 'Cost: $'+str(total)
+    return float(total)
 
 #List all data for menu items
 def print_menu():

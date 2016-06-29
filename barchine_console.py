@@ -4,6 +4,12 @@
 import barchine_logic
 import sys
 
+#create drink recipe ingredients structure
+class part(object):
+    def __init__(self,name,amount):
+        self.name=name
+        self.amount=amount
+
 #Commands: load,save,verify,list,edit,add,delete,help,exit
 
 #Launch print out
@@ -35,9 +41,14 @@ while(user!='exit'):
         else:
             print '#### MISSING DATA SETS ####'
             
-    #run verify function
+    #Verification call to verify the various aspects of the system data
     if (user=='verify'):
-        barchine_logic.verify()
+        print'Verifying...'
+        print'----------Low Volumes----------'
+        barchine_logic.stockLevels()
+        print'----------Invalid Menu Choices----------'
+        if(barchine_logic.validMenu()):
+            print 'None invalid'
         
     #run console data listing function
     if (user=='list'):
@@ -48,31 +59,110 @@ while(user!='exit'):
             
     #run edit mode
     if(user=='edit'):
+        new_name = 'EMPTY'
         var = raw_input('edit "ingredient" or "drink"?: ')
         if(var=='drink'):
-            while True:
-                if(barchine_logic.edit_drink()==True):
-                    break
-        else:
-            while True:
-                if(barchine_logic.edit_liquid()==True):
-                    break
+            old_name = raw_input('Enter name of drink to edit: ')
+            if(barchine_logic.check_menu(old_name)):
+                while(var!='exit'):
+                    print'Enter "exit" to leave edit mode'
+                    var = raw_input('Enter one of the following to edit: name,recipe: ')
+                    if(var=='name'):
+                        new_name = raw_input('Enter new name: ')
+                    if(var=='recipe'):
+                        new_recipe = barchine_logic.get_recipe(old_name)
+                        for num in range(len(new_recipe)):
+                            var = raw_input('Edit '+str(new_recipe[num].name)+'? (y/n): ')
+                            if(var=='y'):
+                                var = raw_input("Enter new name: ")
+                                new_recipe[num].name = str(var)
+                                var = raw_input("Enter new amount (in mL): ")
+                                new_recipe[num].amount = int(var)
+                #error check empty data
+                if(new_name=='EMPTY'):
+                    new_name=old_name
+                #submit edits to function
+                barchine_logic.edit_drink(old_name,new_name,new_recipe)
+            else:
+                print 'Drink DNE'
+        if(var=='ingredient'):
+            #some temp variables
+            family='EMPTY';name='EMPTY';amount=-1;pos=-1;cost=-1
+            old_name = raw_input('Enter name of ingredient to edit: ')
+            if(barchine_logic.check_ingredient(old_name)):
+                while(var!='exit'):
+                    print'Enter "exit" to leave edit mode'
+                    var = raw_input('Enter one of the following to edit: family,name,amount,pos,cost: ')
+                    if(var=='family'):
+                        var = raw_input('Enter new family (mixer or alcohol): ')
+                        family = var
+                    if(var=='name'):
+                        var = raw_input('Enter new name: ')
+                        name = var
+                    if(var=='amount'):
+                        var = raw_input('Enter new amount (in mL): ')
+                        amount = int(var)
+                    if(var=='pos'):
+                        var = raw_input('Enter new pos (Reference machine labelling): ')
+                        pos = int(var)
+                    if(var=='cost'):
+                        var = raw_input('Enter new price (per 25mL): ')
+                        cost = float(var)
+                #submit edits to function
+                barchine_logic.edit_liquid(old_name,family,name,amount,pos,cost)
                 
     #run add entry mode
     if(user=='add'):
         var = raw_input('add "ingredient" or "drink"?: ')
+#adding a new drink recipe
         if(var=='drink'):
-            barchine_logic.add_menu()
+            #Temp variables
+            name = 'EMPTY'
+            recipe = []
+            ingredient = part('EMPTY',0.0)
+            #get input for various parameters
+            var = raw_input('Enter drink name: ')
+            name = var
+            var = raw_input('How many ingredients?')
+            for num in range(0,int(var)):
+                ingre_name = raw_input('Enter name of ingredient: ')
+                amount = raw_input('Enter amount of ingredient in mL: ')
+                recipe.append(part(ingre_name,int(amount)))
+            #send name and recipe to function
+            barchine_logic.add_menu(name,recipe)
+            print ('Added drink: '+str(name))
+            for num in range(len(recipe)):
+                print (str(recipe[num].name)+', '+str(recipe[num].amount)+'mL')
+#adding a new ingredient
         if(var=='ingredient'):
-            barchine_logic.add_ingredient()
-            
+            #get input for various parameters
+            temp_family = raw_input('Enter family of ingredient (alcohol or mixer): ')
+            temp_name = raw_input('Enter name of ingredient: ')
+            temp_amount = raw_input('Enter amount in storage (mL): ')
+            temp_position = raw_input('Enter hardware position of ingredient: ')
+            temp_cost = raw_input('Enter cost of drink per 25mL: ')
+            #send collected data to function
+            barchine_logic.add_ingredient(temp_family,temp_name,temp_amount,temp_position,temp_cost)
+            print 'Added ingredient:'
+            print 'Type: '+str(temp_family)+', Name: '+str(temp_name)+', Amount: '+str(temp_amount)+'mL, Storage Position: '+str(temp_position)+', Cost: $'+str(temp_cost)
+
     #run delete entry mode
     if(user=='delete'):
         var = raw_input('delete "ingredient" or "drink"?: ')
         if(var=='drink'):
-            barchine_logic.delete_menu()
+            var = raw_input('Enter name of menu item to delete: ')
+            if(barchine_logic.check_menu(var)):
+                check = raw_input('Confirm delete ['+var+'] (y/n): ')
+                if(check=='y'):
+                        barchine_logic.delete_menu(var)
+                        print ('Deleted: '+var)
         if(var=='ingredient'):
-            barchine_logic.delete_ingredient()
+            var = raw_input('Enter name of ingredient to delete: ')
+            if(barchine_logic.check_ingredient(var)):
+                check = raw_input('Confirm delete ['+var+'] (y/n): ')
+                if(check=='y'):
+                        barchine_logic.delete_ingredient(var)
+                        print ('Deleted: '+var)
         
     #print out list of commands with description
     if (user=='help'):

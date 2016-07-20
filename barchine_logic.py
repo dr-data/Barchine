@@ -109,7 +109,48 @@ def validMenu():
         return True
     else:
         return False
-    
+
+#ensure data structure in memory is valid (no duplicate names, no overlapping storage positions)
+def dataCheck():
+#find max storage position for each family in memory
+    limit_alcohol = 0
+    limit_mixer = 0
+    for num in range(len(liquids)):
+        if(liquids[num].family=='alcohol'):
+            if(liquids[num].pos>limit_alcohol):
+                limit_alcohol = liquids[num].pos
+        if(liquids[num].family=='mixer'):
+            if(liquids[num].pos>limit_mixer):
+                limit_mixer = liquids[num].pos
+    #print ('alcohol max at: '+str(limit_alcohol)+' mixer max at: '+str(limit_mixer))
+#organise liquid families based on positions
+    alcohol_pos_list = [None]*(limit_alcohol+1)
+    mixer_pos_list = [None]*(limit_mixer+1)
+    for num in range(len(liquids)):
+        if(liquids[num].family=='alcohol'):
+            #ensure position is not taken, if it is taken, return error
+            if(alcohol_pos_list[liquids[num].pos-1]==None):
+                alcohol_pos_list[liquids[num].pos-1]=liquids[num].name
+            else:
+                print '(alcohol) ERROR SPOT TAKEN AT: '+str(liquids[num].pos)
+                print 'Resident Value: '+str(alcohol_pos_list[liquids[num].pos-1])
+                print 'Value attempting to be placed'+str(liquids[num].name)
+        if(liquids[num].family=='mixer'):
+            if(mixer_pos_list[liquids[num].pos-1]==None):
+                mixer_pos_list[liquids[num].pos-1]=liquids[num].name
+            else:
+                print '(mixer) ERROR SPOT TAKEN AT: '+str(liquids[num].pos)
+#check for duplicate names in each family
+    for num in range(len(alcohol_pos_list)):
+        if(alcohol_pos_list.count(alcohol_pos_list[num])>1):
+            print '[ERROR] Multiple instances of: '+str(alcohol_pos_list[num])
+            return False
+    for num in range(len(mixer_pos_list)):
+        if(mixer_pos_list.count(mixer_pos_list[num])>1):
+            print '[ERROR] Multiple instances of: '+str(mixer_pos_list[num])
+            return False
+    return True
+
 #confirm if menu item exists
 def check_menu(test_name):
     for num in range(len(menu)):
@@ -133,6 +174,7 @@ def getLevel(name):
 def getCost(name):
     for num in range(len(liquids)):
         if(liquids[num].name==name):return liquids[num].cost
+    return -1
 
 #retrieve recipe
 def get_recipe(test_name):
@@ -197,7 +239,7 @@ def calcCost(drink):
     return float(total)
 
 #List all data for menu items
-def print_menu():
+def console_print_menu():
     print'-----Menu-----'
     for num in range(len(menu)):
             print ' '
@@ -207,7 +249,7 @@ def print_menu():
                 print(str(menu[num].recipe[num2].name)+'::'+str(menu[num].recipe[num2].amount)+'mL')
                 
 #List all data for stored liquids
-def print_liquids():
+def console_print_liquids():
     print'-----Stock-----'
     for num in range(len(liquids)):
             print 'Type: '+str(liquids[num].family)+', Name: '+str(liquids[num].name)+', Amount: '+str(liquids[num].amount)+'mL, Storage Position: '+str(liquids[num].pos)+', Cost: $'+str(liquids[num].cost)

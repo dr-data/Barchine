@@ -47,15 +47,16 @@ while(user!='exit'):
         print'----------Low Volumes----------'
         barchine_logic.stockLevels()
         print'----------Invalid Menu Choices----------'
-        if(barchine_logic.validMenu()):
-            print 'None invalid'
+        barchine_logic.validMenu()
+        print'Data Check'
+        print(barchine_logic.dataCheck())
         
     #run console data listing function
     if (user=='list'):
-        barchine_logic.print_liquids()
+        barchine_logic.console_print_liquids()
         print ''
-        if(barchine_logic.validMenu()==True):
-            barchine_logic.print_menu()
+        #if(barchine_logic.validMenu()==True):
+        barchine_logic.console_print_menu()
             
     #run edit mode
     if(user=='edit'):

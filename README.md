@@ -12,8 +12,8 @@ A python based framework to do all the background computing for a mechanized bar
   - Check for drinks which are missing or have insufficient ingredients
   - Console navigation
   - Add/Delete/Edit menu entries and ingredient entries
-   - Error checking system to ensure data read from memory file follows proper logic (no overlapping on storage positions, duplicate names)
-   - 
+  - Error checking system to ensure data read from memory file follows proper logic (no overlapping on storage positions, duplicate names)
+  
 ###Upcoming Features:
   - Serial communication to arduino for drink order
   - Create GUI system for end user operation with access to console settings

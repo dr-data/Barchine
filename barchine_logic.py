@@ -1,6 +1,7 @@
 #Diego Bonilla 2016 Bartending machine logic
 import os.path
 import sys
+import serial
 
 #create structure for ingredients
 # Family (Alcohol or Mixer), Name of ingredient, Amount in system, Positioning based on hardware setup, Cost per 25mL
@@ -231,6 +232,16 @@ def edit_liquid(old_name,family,name,amount,pos,cost):
             if(cost!=-1):
                 liquids[num].cost=float(cost)
 
+def transmit(name):
+    ser = serial.Serial('/dev/ttyACMO',9600)
+    for num in range(len(menu)):
+        if(menu[num].name==name):
+            for num2 in range(len(menu[num].recipe)):
+                ser.write(str(menu[num].recipe[num2].name))
+                ser.write(str(menu[num].recipe[num2].amount))
+            return True
+    return False
+                    
 #calculate the total cost of a drink provided the name
 def calcCost(drink):
     total=0

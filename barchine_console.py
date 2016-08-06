@@ -57,6 +57,14 @@ while(user!='exit'):
         print ''
         #if(barchine_logic.validMenu()==True):
         barchine_logic.console_print_menu()
+
+    #Place an order
+    if (user=='order'):
+        order = raw_input('What would you like to order?')
+        if(barchine_logic.transmit(order)):
+            print 'Drink order successful'
+        else:
+            print 'Order Failed'
             
     #run edit mode
     if(user=='edit'):

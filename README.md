@@ -8,12 +8,11 @@ A python based framework to do all the background computing for a mechanized bar
   - Drink data (name, recipe array containing ingredients with name and respective volume for drink recipe)
   - Calculate the cost of each drink recipe
   - Save and load drink recipes and ingredients from txt files
-  - Check for low stock
-  - Check for drinks which are missing or have insufficient ingredients
-  - Console navigation
-  - Add/Delete/Edit menu entries and ingredient entries
-  - Error checking system to ensure data read from memory file follows proper logic (no overlapping on storage positions, duplicate names)
-  
-###Upcoming Features:
+  - Error checking system
+   - Check for low stock
+   - Check for drinks which are missing or have insufficient ingredients
+   - Verify no storage overlap, or nameing conflicts
   - Serial communication to arduino for drink order
-  - Create GUI system for end user operation with access to console settings
+  - Console navigation
+  - Sample Arduino code for raspberry pi to arduino serial communication for Barchine
+

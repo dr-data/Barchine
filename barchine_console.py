@@ -60,7 +60,7 @@ while(user!='exit'):
 
     #Place an order
     if (user=='order'):
-        order = raw_input('What would you like to order?')
+        order = raw_input('What would you like to order?').strip()
         if(barchine_logic.transmit(order)):
             print 'Drink order successful'
         else:
@@ -69,23 +69,23 @@ while(user!='exit'):
     #run edit mode
     if(user=='edit'):
         new_name = 'EMPTY'
-        var = raw_input('edit "ingredient" or "drink"?: ')
+        var = raw_input('edit "ingredient" or "drink"?: ').strip()
         if(var=='drink'):
-            old_name = raw_input('Enter name of drink to edit: ')
+            old_name = raw_input('Enter name of drink to edit: ').strip()
             if(barchine_logic.check_menu(old_name)):
                 while(var!='exit'):
                     print'Enter "exit" to leave edit mode'
-                    var = raw_input('Enter one of the following to edit: name,recipe: ')
+                    var = raw_input('Enter one of the following to edit: name,recipe: ').strip()
                     if(var=='name'):
-                        new_name = raw_input('Enter new name: ')
+                        new_name = raw_input('Enter new name: ').strip()
                     if(var=='recipe'):
                         new_recipe = barchine_logic.get_recipe(old_name)
                         for num in range(len(new_recipe)):
-                            var = raw_input('Edit '+str(new_recipe[num].name)+'? (y/n): ')
+                            var = raw_input('Edit '+str(new_recipe[num].name)+'? (y/n): ').strip()
                             if(var=='y'):
-                                var = raw_input("Enter new name: ")
+                                var = raw_input("Enter new name: ").strip()
                                 new_recipe[num].name = str(var)
-                                var = raw_input("Enter new amount (in mL): ")
+                                var = raw_input("Enter new amount (in mL): ").strip()
                                 new_recipe[num].amount = int(var)
                 #error check empty data
                 if(new_name=='EMPTY'):
@@ -97,25 +97,25 @@ while(user!='exit'):
         if(var=='ingredient'):
             #some temp variables
             family='EMPTY';name='EMPTY';amount=-1;pos=-1;cost=-1
-            old_name = raw_input('Enter name of ingredient to edit: ')
+            old_name = raw_input('Enter name of ingredient to edit: ').strip()
             if(barchine_logic.check_ingredient(old_name)):
                 while(var!='exit'):
                     print'Enter "exit" to leave edit mode'
-                    var = raw_input('Enter one of the following to edit: family,name,amount,pos,cost: ')
+                    var = raw_input('Enter one of the following to edit: family,name,amount,pos,cost: ').strip()
                     if(var=='family'):
-                        var = raw_input('Enter new family (mixer or alcohol): ')
+                        var = raw_input('Enter new family (mixer or alcohol): ').strip()
                         family = var
                     if(var=='name'):
-                        var = raw_input('Enter new name: ')
+                        var = raw_input('Enter new name: ').strip()
                         name = var
                     if(var=='amount'):
-                        var = raw_input('Enter new amount (in mL): ')
+                        var = raw_input('Enter new amount (in mL): ').strip()
                         amount = int(var)
                     if(var=='pos'):
-                        var = raw_input('Enter new pos (Reference machine labelling): ')
+                        var = raw_input('Enter new pos (Reference machine labelling): ').strip()
                         pos = int(var)
                     if(var=='cost'):
-                        var = raw_input('Enter new price (per 25mL): ')
+                        var = raw_input('Enter new price (per 25mL): ').strip()
                         cost = float(var)
                 #submit edits to function
                 barchine_logic.edit_liquid(old_name,family,name,amount,pos,cost)
@@ -130,12 +130,12 @@ while(user!='exit'):
             recipe = []
             ingredient = part('EMPTY',0.0)
             #get input for various parameters
-            var = raw_input('Enter drink name: ')
+            var = raw_input('Enter drink name: ').strip()
             name = var
-            var = raw_input('How many ingredients?')
+            var = raw_input('How many ingredients?').strip()
             for num in range(0,int(var)):
-                ingre_name = raw_input('Enter name of ingredient: ')
-                amount = raw_input('Enter amount of ingredient in mL: ')
+                ingre_name = raw_input('Enter name of ingredient: ').strip()
+                amount = raw_input('Enter amount of ingredient in mL: ').strip()
                 recipe.append(part(ingre_name,int(amount)))
             #send name and recipe to function
             barchine_logic.add_menu(name,recipe)
@@ -145,11 +145,11 @@ while(user!='exit'):
 #adding a new ingredient
         if(var=='ingredient'):
             #get input for various parameters
-            temp_family = raw_input('Enter family of ingredient (alcohol or mixer): ')
-            temp_name = raw_input('Enter name of ingredient: ')
-            temp_amount = raw_input('Enter amount in storage (mL): ')
-            temp_position = raw_input('Enter hardware position of ingredient: ')
-            temp_cost = raw_input('Enter cost of drink per 25mL: ')
+            temp_family = raw_input('Enter family of ingredient (alcohol or mixer): ').strip()
+            temp_name = raw_input('Enter name of ingredient: ').strip()
+            temp_amount = raw_input('Enter amount in storage (mL): ').strip()
+            temp_position = raw_input('Enter hardware position of ingredient: ').strip()
+            temp_cost = raw_input('Enter cost of drink per 25mL: ').strip()
             #send collected data to function
             barchine_logic.add_ingredient(temp_family,temp_name,temp_amount,temp_position,temp_cost)
             print 'Added ingredient:'
@@ -157,21 +157,25 @@ while(user!='exit'):
 
     #run delete entry mode
     if(user=='delete'):
-        var = raw_input('delete "ingredient" or "drink"?: ')
+        var = raw_input('delete "ingredient" or "drink"?: ').strip()
         if(var=='drink'):
-            var = raw_input('Enter name of menu item to delete: ')
+            var = raw_input('Enter name of menu item to delete: ').strip()
             if(barchine_logic.check_menu(var)):
-                check = raw_input('Confirm delete ['+var+'] (y/n): ')
+                check = raw_input('Confirm delete ['+var+'] (y/n): ').strip()
                 if(check=='y'):
                         barchine_logic.delete_menu(var)
                         print ('Deleted: '+var)
+            else:
+                print 'Menu item DNE'
         if(var=='ingredient'):
-            var = raw_input('Enter name of ingredient to delete: ')
+            var = raw_input('Enter name of ingredient to delete: ').strip()
             if(barchine_logic.check_ingredient(var)):
-                check = raw_input('Confirm delete ['+var+'] (y/n): ')
+                check = raw_input('Confirm delete ['+var+'] (y/n): ').strip()
                 if(check=='y'):
                         barchine_logic.delete_ingredient(var)
                         print ('Deleted: '+var)
+            else:
+                print 'Ingredient DNE'
         
     #print out list of commands with description
     if (user=='help'):
@@ -180,6 +184,7 @@ while(user!='exit'):
         print 'save - Save drinks menu and ingredients to a file'
         print 'verify - Check for low stock and invalid drink recipes'
         print 'list - List a full ingredients list and menu list with relevant data points'
+        print 'order - Order a drink (Default, sending to Arduino via Serial)'
         print 'edit - Edit entries for both drinks and ingredients'
         print 'add - Add a new drink or ingredient to the system'
         print 'delete - Remove a drink or ingredient from the system'

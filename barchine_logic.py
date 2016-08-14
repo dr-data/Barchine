@@ -45,7 +45,7 @@ def load_warehouse():
         print 'generating liquids list'
         for line in f:
             data = line.split('|')
-            new = ingredient(data[0],data[1],int(data[2]),int(data[3]),float(data[4]))
+            new = ingredient(data[0].strip(),data[1].strip(),int(data[2]),int(data[3]),float(data[4]))
             liquids.append(new)
     else:
         print 'warehouse not found!'
@@ -66,7 +66,7 @@ def load_menu():
         print 'generating menu list'
         for num in range(0,num_lines/2):
             recipe = []
-            title = f.readline().rstrip('\n')
+            title = f.readline().strip()
             #print 'adding '+title
             line = f.readline()
             data = line.split('|')
@@ -165,7 +165,11 @@ def check_ingredient(test_name):
                  if(liquids[num].name==test_name):
                      return True
     return False
-
+#retrieve position of ingredient from name
+def getPos(name):
+    for num in range(len(liquids)):
+        if(name==liquids[num].name):
+            return liquids[num].pos
 #retrieve level from stock given name
 def getLevel(name):
     for num in range(len(liquids)):
@@ -176,6 +180,10 @@ def getCost(name):
     for num in range(len(liquids)):
         if(liquids[num].name==name):return liquids[num].cost
     return -1
+#retrieve liquid type
+def getType(name):
+    for num in range(len(liquids)):
+        if(liquids[num].name==name):return liquids[num].family
 
 #retrieve recipe
 def get_recipe(test_name):
@@ -231,14 +239,22 @@ def edit_liquid(old_name,family,name,amount,pos,cost):
                 liquids[num].pos=pos
             if(cost!=-1):
                 liquids[num].cost=float(cost)
-
+#Transmit the recipe to the arduino, in order of liquid position, followed by amount
 def transmit(name):
-    ser = serial.Serial('/dev/ttyACMO',9600)
+    ser = serial.Serial('/dev/ttyACM0',9600)
     for num in range(len(menu)):
         if(menu[num].name==name):
             for num2 in range(len(menu[num].recipe)):
-                ser.write(str(menu[num].recipe[num2].name))
-                ser.write(str(menu[num].recipe[num2].amount))
+                #If liquid is a mixer, transmit negative position
+                if(getType(menu[num].recipe[num2].name)=='mixer'):
+                    ser.write(str(getPos(menu[num].recipe[num2].name)*-1))
+                    ser.write(str(menu[num].recipe[num2].amount/25))
+                #Else transmit regular position
+                else:
+                    ser.write(str(getPos(menu[num].recipe[num2].name)))
+                    ser.write(str(menu[num].recipe[num2].amount/25))
+            #Transmit End Of Order character '!'
+            ser.write('!')
             return True
     return False
                     

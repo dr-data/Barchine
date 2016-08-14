@@ -1,12 +1,12 @@
-alcohol|vodka|750|0|0.92
-alcohol|gin|750|1|1.33
-alcohol|tequila|750|2|1.03
-alcohol|bourbon|750|3|1.57
-alcohol|rum|1750|4|0.83
-alcohol|triple sec|750|5|0.67
-mixer|coca cola|500|0|0.3
-mixer|tonic water|500|1|0.1
-mixer|orange juice|500|2|0.3
-mixer|cranberry juice|500|3|0.35
-mixer|sprite|500|4|0.3
-mixer|lime juice|250|5|0.15
+alcohol|vodka|750|1|0.92
+alcohol|gin|750|2|1.33
+alcohol|tequila|750|3|1.03
+alcohol|bourbon|750|4|1.57
+alcohol|rum|1750|5|0.83
+alcohol|triple sec|750|6|0.67
+mixer|coca cola|500|1|0.3
+mixer|tonic water|500|2|0.1
+mixer|orange juice|500|3|0.3
+mixer|cranberry juice|500|4|0.35
+mixer|sprite|500|5|0.3
+mixer|lime juice|250|6|0.15

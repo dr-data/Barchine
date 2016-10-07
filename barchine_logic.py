@@ -81,7 +81,6 @@ def load_menu():
     
 #Check for low stock levels
 #return true if all is ok
-#--------------------------------FIX FUNCTION-------------------------------------#
 def stockLevels():
     tally = 0
     for num in range(len(liquids)):
@@ -98,7 +97,6 @@ def stockLevels():
         return False
 
 #ensure that menu items are valid and can be made with provided liquids
-#--------------------------------FIX FUNCTION-------------------------------------#
 def validMenu():
     tally = 0
     for num in range(len(menu)):
@@ -123,7 +121,6 @@ def dataCheck():
         if(liquids[num].family=='mixer'):
             if(liquids[num].pos>limit_mixer):
                 limit_mixer = liquids[num].pos
-    #print ('alcohol max at: '+str(limit_alcohol)+' mixer max at: '+str(limit_mixer))
 #organise liquid families based on positions
     alcohol_pos_list = [None]*(limit_alcohol+1)
     mixer_pos_list = [None]*(limit_mixer+1)

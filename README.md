@@ -11,7 +11,7 @@ A python based framework to do all the background computing for a mechanized bar
   - Error checking system
    - Check for low stock
    - Check for drinks which are missing or have insufficient ingredients
-   - Verify no storage overlap, or nameing conflicts
+   - Verify no storage overlap, or naming conflicts
   - Serial communication to arduino for drink order
   - Console navigation
   - Sample Arduino code for raspberry pi to arduino serial communication for Barchine

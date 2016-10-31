@@ -60,11 +60,14 @@ while(user!='exit'):
 
     #Place an order
     if (user=='order'):
-        order = raw_input('What would you like to order?').strip()
-        if(barchine_logic.transmit(order)):
-            print 'Drink order successful'
+        if(barchine_logic.empty_liquids()==False & barchine_logic.empty_menu()==False):
+            order = raw_input('What would you like to order?').strip()
+            if(barchine_logic.transmit(order)):
+                print 'Drink order successful'
+            else:
+                print 'Order Failed'
         else:
-            print 'Order Failed'
+                print 'No data loaded'
             
     #run edit mode
     if(user=='edit'):

@@ -238,7 +238,11 @@ def edit_liquid(old_name,family,name,amount,pos,cost):
                 liquids[num].cost=float(cost)
 #Transmit the recipe to the arduino, in order of liquid position, followed by amount
 def transmit(name):
-    ser = serial.Serial('/dev/ttyACM0',9600)
+    try:
+         ser = serial.Serial('/dev/ttyACM0',9600)
+    except serial.SerialException:
+         print("ERROR: Coult not find open port")
+         return False
     for num in range(len(menu)):
         if(menu[num].name==name):
             for num2 in range(len(menu[num].recipe)):
